@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"path/filepath"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
