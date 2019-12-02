@@ -24,20 +24,27 @@ func main() {
 	applyK8sYamls(yamlFiles)
 }
 
+
 /** apply the k8s yaml files */
 func applyK8sYamls(files []string) {
 	for _, file := range files {
-		args := strings.Split("kubectl apply -f " + ProjectDir + file, " ")
-		cmd := exec.Command(args[0], args[1:]...)
-
-		stdout, stderr := cmd.CombinedOutput()
-
-		if stderr != nil {
-			panic(stderr.Error())
-		}
-
-		println(string(stdout))
+		command := strings.Split("kubectl apply -f " + ProjectDir + file, " ")
+		execCommand(command)
 	}
+}
+
+
+/** execute command and print response */
+func execCommand(args []string) {
+	cmd := exec.Command(args[0], args[1:]...)
+
+	stdout, stderr := cmd.CombinedOutput()
+
+	if stderr != nil {
+		panic(stderr.Error())
+	}
+
+	println(string(stdout))
 }
 
 
