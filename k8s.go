@@ -83,6 +83,7 @@ func initSystem() {
 	fmt.Println("Initializing Kubernetes")
 }
 
+
 /** Loop in the files */
 func readFiles(dirname string) []string {
 	files, err := ioutil.ReadDir(ProjectDir + dirname)
