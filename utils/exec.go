@@ -6,11 +6,10 @@ import (
 	"strings"
 )
 
-
 /** apply the k8s yaml files */
-func ApplyK8sYamls(files []string, cmd string, project string) {
+func ApplyK8sYamls(files []string, cmd string, project string, configParams Config) {
 	for _, file := range files {
-		command := strings.Split("kubectl " + cmd + " -f " + utils.ProjectDir + project + "/" + file, " ")
+		command := strings.Split("kubectl " + cmd + " -f " + configParams.ConfigFolder + "/" + project + "/" + file, " ")
 
 		fmt.Printf("Running: %s \n",  strings.Join(command, " "))
 

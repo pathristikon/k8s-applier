@@ -7,21 +7,22 @@ import (
 	"os"
 )
 
+var configParams utils.Config
 
 // [cmd] apply [project]
 func main() {
+	configParams = utils.InitSystem()
 	arguments := checkArgs()
-
 	project := arguments[1]
 
 	// apply or delete
 	cmd := arguments[0]
 
-	yamlFiles := utils.ReadFiles(project)
+	yamlFiles := utils.ReadFiles(project, configParams)
 
 	fmt.Printf("[Notice] Found %d files... continuing\n\n", len(yamlFiles))
 
-	utils.ApplyK8sYamls(yamlFiles, cmd, project)
+	utils.ApplyK8sYamls(yamlFiles, cmd, project, configParams)
 }
 
 
@@ -33,17 +34,12 @@ func checkArgs() []string {
 		panic("Valid format: [cmd] apply/delete [project]")
 	}
 
-	if arguments[0] == "init" {
-		utils.InitSystem()
-		os.Exit(200)
-	}
-
 	// so here we need the project name
 	if len(arguments) < 2 {
 		panic("Valid format: [cmd] apply/delete [project]")
 	}
 
-	dirs, _ := ioutil.ReadDir(utils.ProjectDir)
+	dirs, _ := ioutil.ReadDir(configParams.ConfigFolder)
 
 	dirExists := false
 	for _, dir := range dirs {

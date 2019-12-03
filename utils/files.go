@@ -23,8 +23,8 @@ func CheckExtension(i os.FileInfo) bool {
 
 
 /** Loop in the files */
-func ReadFiles(dirname string) []string {
-	files, err := ioutil.ReadDir(ProjectDir  + dirname)
+func ReadFiles(dirname string, configParams Config) []string {
+	files, err := ioutil.ReadDir(configParams.ConfigFolder  + "/" + dirname)
 	if err != nil {
 		log.Fatal(err)
 	}

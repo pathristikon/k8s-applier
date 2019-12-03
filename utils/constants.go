@@ -1,3 +1,4 @@
 package utils
 
-const ProjectDir = "/work/myownawb-kube/projects/"
+const ConfigDir = ".k8s-applier"
+const ConfigFile = "config.json"
