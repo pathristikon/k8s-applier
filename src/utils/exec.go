@@ -25,7 +25,7 @@ func ExecCommand(args []string) {
 	stdout, stderr := cmd.CombinedOutput()
 
 	if stderr != nil {
-		panic(stderr.Error())
+		fmt.Println("[ERR] Cannot execute command!")
 	}
 
 	println(string(stdout))
