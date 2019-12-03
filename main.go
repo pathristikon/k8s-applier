@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"os/exec"
-	"strings"
 )
 
 
@@ -23,33 +21,7 @@ func main() {
 
 	fmt.Printf("[Notice] Found %d files... continuing\n\n", len(yamlFiles))
 
-	applyK8sYamls(yamlFiles, cmd, project)
-}
-
-
-/** apply the k8s yaml files */
-func applyK8sYamls(files []string, cmd string, project string) {
-	for _, file := range files {
-		command := strings.Split("kubectl " + cmd + " -f " + utils.ProjectDir + project + "/" + file, " ")
-
-		fmt.Printf("Running: %s \n",  strings.Join(command, " "))
-
-		execCommand(command)
-	}
-}
-
-
-/** execute command and print response */
-func execCommand(args []string) {
-	cmd := exec.Command(args[0], args[1:]...)
-
-	stdout, stderr := cmd.CombinedOutput()
-
-	if stderr != nil {
-		panic(stderr.Error())
-	}
-
-	println(string(stdout))
+	utils.ApplyK8sYamls(yamlFiles, cmd, project)
 }
 
 

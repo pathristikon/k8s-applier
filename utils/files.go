@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 )
 
+
 /** Check file extension */
 func CheckExtension(i os.FileInfo) bool {
 	extensions := []string{".yaml", ".yml"}
@@ -19,6 +20,7 @@ func CheckExtension(i os.FileInfo) bool {
 
 	return false
 }
+
 
 /** Loop in the files */
 func ReadFiles(dirname string) []string {
