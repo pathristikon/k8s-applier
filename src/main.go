@@ -31,7 +31,11 @@ func checkArgs() []string {
 	arguments := os.Args[1:]
 
 	if len(arguments) == 0 {
-		panic("Valid format: [cmd] apply/delete [project]")
+		utils.PrintHelp()
+	}
+
+	if arguments[0] == "--help" || arguments[0] == "-h" {
+		utils.PrintHelp()
 	}
 
 	// so here we need the project name
