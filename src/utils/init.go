@@ -28,7 +28,7 @@ func InitSystem() Config {
 		panic("Cannot get current user!")
 	}
 
-	configFolderString = currentUser.HomeDir + "/" + ConfigDir
+	configFolderString = fmt.Sprintf("%s/%s", currentUser.HomeDir, ConfigDir)
 
 	// check if home directory contains config folder
 	if createConfigFolderIfNotExists(currentUser) {
@@ -48,7 +48,7 @@ func createConfigFolderIfNotExists(currentUser *user.User) bool {
 		err := os.Mkdir(configFolderString, 0755)
 
 		if err != nil {
-			panic("Couldn'\t create directory in Home folder!")
+			panic("Couldn't create directory in Home folder!")
 		}
 
 		return true
@@ -98,10 +98,11 @@ func resolveQuestions() {
 	// encoding to json
 	configJson, err := json.Marshal(answers)
 	if err != nil {
-		panic("Couldn'\t save the config to JSON")
+		panic("Couldn't save the config to JSON")
 	}
 
-	var file, fileError = os.OpenFile(configFolderString + "/" + ConfigFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
+	filename := fmt.Sprintf("%s/%s", configFolderString, ConfigFile)
+	var file, fileError = os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
 
 	if fileError != nil {
 		panic(fileError.Error())
@@ -122,7 +123,8 @@ func resolveQuestions() {
 
 /** retrieve config from json to struct */
 func getConfigStruct() Config {
-	configFile, err := ioutil.ReadFile(configFolderString + "/" + ConfigFile)
+	fileName := fmt.Sprintf("%s/%s", configFolderString, ConfigFile)
+	configFile, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		panic(err.Error())
 	}

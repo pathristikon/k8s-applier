@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -24,7 +25,8 @@ func CheckExtension(i os.FileInfo) bool {
 
 /** Loop in the files */
 func ReadFiles(dirname string, configParams Config) []string {
-	files, err := ioutil.ReadDir(configParams.ConfigFolder  + "/" + dirname)
+	dir := fmt.Sprintf("%s/%s", configParams.ConfigFolder, dirname)
+	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		log.Fatal(err)
 	}
