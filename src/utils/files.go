@@ -47,3 +47,16 @@ func ReadFiles(dirname string, configParams Config) []string {
 
 	return list
 }
+
+
+func CheckIfProjectExists(config Config, dirName string) bool {
+	dirs, _ := ioutil.ReadDir(config.ConfigFolder)
+
+	for _, dir := range dirs {
+		if dir.Name() == dirName && dir.IsDir() {
+			return true
+		}
+	}
+
+	return false
+}
