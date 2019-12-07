@@ -43,6 +43,13 @@ func kubectl(config Config) {
 		project := args[1]
 		projectExists := CheckIfProjectExists(config, project)
 
+		/** check if cmd is in map */
+		choices := map[string]bool{"apply": true, "delete": true, "create": true}
+		if _, validChoice := choices[cmd]; !validChoice {
+			Alert("ERR", "This kubernetes command can't be applied! Check help for details!")
+		}
+
+		/** check if project folder exists */
 		if !projectExists {
 			Alert("ERR","Project folder does not exists!")
 		}
