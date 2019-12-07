@@ -7,5 +7,5 @@ func HandleKubernetesFiles(project string, cmd string, config Config) {
 
 	fmt.Printf("[Notice] Found %d files... continuing\n\n", len(yamlFiles))
 
-	ApplyK8sYamls(yamlFiles, cmd, project, config)
+	HandleYamls(yamlFiles, cmd, project, config)
 }

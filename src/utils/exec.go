@@ -7,7 +7,7 @@ import (
 )
 
 /** apply the k8s yaml files */
-func ApplyK8sYamls(files []string, cmd string, project string, configParams Config) {
+func HandleYamls(files []string, cmd string, project string, configParams Config) {
 	for _, file := range files {
 		cmdString := fmt.Sprintf("kubectl %s -f %s/%s/%s", cmd, configParams.ConfigFolder, project, file)
 		command := strings.Split(cmdString, " ")
