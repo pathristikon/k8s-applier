@@ -13,4 +13,4 @@ deploy:
   on:
     repo: pathristikon/k8s-applier
     tags: false
-    condition: "$LATEST = true"
+    go: 1.11.x
