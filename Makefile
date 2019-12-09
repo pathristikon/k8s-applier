@@ -1,5 +1,3 @@
-.PHONY: install-linux
-
 PROJECT = k8s
 
 install-linux:

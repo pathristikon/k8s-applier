@@ -2,7 +2,7 @@
 
 ### Installation
 
-Run `make` or `make install-linux`
+Run `make install-linux`
 
 ### Usage
 
