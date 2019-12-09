@@ -1,3 +1,5 @@
+Build Status [![Build Status](https://travis-ci.org/pathristikon/k8s-applier.svg?branch=master)](https://travis-ci.org/pathristikon/k8s-applier)
+
 # K8S Local cluster helper
 
 ### Installation
