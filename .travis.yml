@@ -1,7 +1,17 @@
 language: go
-
 go:
-  - 1.x
-  - "1.10"
-  - 1.11.x
-  - master
+- '1.10'
+- 1.11.x
+- master
+script: "./main"
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: DEY2h7I9w62yL8HW1GtlaDNE4kawdVQqumlhP4u2Zd74Ft8uucqMgvP/ho9n2WN3gRsgsrbWRTlxKECnPFJnUffNZzPM/zSE63ijp9Glb8OaJndAERzGETvYoOKxd/QpPVpVRRBSbGC0MnL5yjpqQti0JxyiH43nVFf61qFVRc8AtuR7hlYdxFBTA0R4DYCEag/bnkAXE7OD/8TGPIG9uevWhYdhc3xKNj7tgamlHzHynFbyodoibywgIUSRDB7DmW+4SVGVGHyKj4zCn23OX+z+5YZ9rZzzXDxc/u0b2sImfAynXVB5vz1EtFaTNy7PPJJton+6XtQNQoXomY6iLWOhZXqGKJI7DcSXmf5FA7oVuKs88QULZ1/X/8+sxwuDyvAhOT74UNJi23aiK4rW0sV6kWZCacJbdvmiGhM/pZmKs4zQIeiPjoqD/xiWY0UT7N2r48PjUIcoZlR4c87vtF9xfa3pcUMot76RP+bnMx795REICa823YI2iPRNSUt1ocoytKInIz8av1cv8qEkmWM7uLwOliaKpryZTUDHflNFiVMddXXPe/0WFxUQxb228XjwqFTtls1vuuE47CHbSZiGizX4NZLlgofMrdSH0TvH/nEg33Q+C4MG3ix+W+p36qH4V284WyljZuenxRN8RHTfr1n62D55zgHG+t/b8fo=
+  file:
+  - k8s
+  on:
+    repo: pathristikon/k8s-applier
+    tags: false
+    condition: "$LATEST = true"
