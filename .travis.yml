@@ -9,5 +9,5 @@ deploy:
   file: "k8s"
   on:
     repo: pathristikon/k8s-applier
-    tags: false
+    tags: true
     go: 1.11.x
