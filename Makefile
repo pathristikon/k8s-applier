@@ -6,4 +6,4 @@ install:
 	go build -o k8s src/main.go
 
 install-linux:
-	go build -o /usr/local/bin/${PROJECT} src/main.go
+	cd src/ && go build -o /usr/local/bin/${PROJECT} main.go
