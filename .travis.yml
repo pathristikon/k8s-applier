@@ -2,7 +2,7 @@ language: go
 go:
 - '1.10'
 - 1.11.x
-- master
+# - master need to solve conflicts on master
 
 deploy:
   provider: releases
