@@ -2,15 +2,14 @@ language: go
 go:
 - '1.10'
 - 1.11.x
-# - master need to solve conflicts on master
-
 deploy:
   provider: releases
-  token:
-    secure: DEY2h7I9w62yL8HW1GtlaDNE4kawdVQqumlhP4u2Zd74Ft8uucqMgvP/ho9n2WN3gRsgsrbWRTlxKECnPFJnUffNZzPM/zSE63ijp9Glb8OaJndAERzGETvYoOKxd/QpPVpVRRBSbGC0MnL5yjpqQti0JxyiH43nVFf61qFVRc8AtuR7hlYdxFBTA0R4DYCEag/bnkAXE7OD/8TGPIG9uevWhYdhc3xKNj7tgamlHzHynFbyodoibywgIUSRDB7DmW+4SVGVGHyKj4zCn23OX+z+5YZ9rZzzXDxc/u0b2sImfAynXVB5vz1EtFaTNy7PPJJton+6XtQNQoXomY6iLWOhZXqGKJI7DcSXmf5FA7oVuKs88QULZ1/X/8+sxwuDyvAhOT74UNJi23aiK4rW0sV6kWZCacJbdvmiGhM/pZmKs4zQIeiPjoqD/xiWY0UT7N2r48PjUIcoZlR4c87vtF9xfa3pcUMot76RP+bnMx795REICa823YI2iPRNSUt1ocoytKInIz8av1cv8qEkmWM7uLwOliaKpryZTUDHflNFiVMddXXPe/0WFxUQxb228XjwqFTtls1vuuE47CHbSZiGizX4NZLlgofMrdSH0TvH/nEg33Q+C4MG3ix+W+p36qH4V284WyljZuenxRN8RHTfr1n62D55zgHG+t/b8fo=
   file:
   - k8s
   on:
     repo: pathristikon/k8s-applier
     tags: false
     go: 1.11.x
+releases:
+  token:
+    secure: kEOwAcbAp9giqFRF7NzchCCLIEb+USXLvGH7P8u3gxuddFHRUlSpk3+qRzOsMjiT43fi4OP1dmPtBUwwOl0g/0chNEjyP62lYhjB9NB7l2tO+Txqw2vtD+JfemOQLIccgHe3nOMClswaBobl46eGe3/fzFvi3sVCGX09hHDOZ30aA/VnqfX6ebWJkOLTxx+C/0DMmOGpN9usTzJ6BwcVrDnnQ+hVN/hZhUizHrc2Zr2g9wiIZ+u+xRU5OkIUNQ6dcPuUg2mgDze6RCwC4OwLL32DjHpJtDD36kBth1L8RcYS2S1QyBp+biHtQfCJuj6UxACqv2x9/kz3L8FF3FMeGnf4io+SG2cwUcdsKwkHQ3r8qg7fNliI9ZtcI22qyZm/TL7HoHqh2UUkg+QJDHMqdbzdHA5qKQ1ex6wO2+JRGy0P+rj6tooNgfjYbOCGdx075RzdaLmfzeVn4zAwxcqJr11pYI0FCPC51dJUo5p5X7zps6ducCRyxs2VT765SApuNQweJgG6qtmDstqXnvYlwNSn3EJtRXXW2dp3URGZEPK0HCxyPMBOe5dEN6x4QYMPyqk7uR8R6OIuQYiZScwvKImpRpKrHYfcyWY6b4Fu3+7on2ASMIH2tn+MsJsP6gwBmslJhZ1GfE4iqWe6xrnnP0pgVBoF6laJNmT/+23Fyw4=
