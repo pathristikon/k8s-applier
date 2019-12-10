@@ -8,9 +8,6 @@ os:
   - linux
   - osx
 
-script:
-  - env GO111MODULE=on go build
-
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
