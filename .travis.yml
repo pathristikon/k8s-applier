@@ -10,8 +10,8 @@ os:
 
 deploy:
   provider: releases
-  api_key: $GITHUB_TOKEN
-  skip_cleanup: true
+  token: $GITHUB_TOKEN
+  cleanup: false
   file: "k8s"
   on:
     repo: pathristikon/k8s-applier
