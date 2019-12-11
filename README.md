@@ -30,7 +30,7 @@ Run the following commands for help:
     k8s --help
     k8s -help
 
-### Commands with kubectl
+### Commands using kubectl
 
 These commands will apply/delete/create the yaml configuration yaml files for your
 kubernetes cluster.
