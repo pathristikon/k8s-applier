@@ -42,4 +42,24 @@ kubernetes cluster.
 The command is recursive and it will execute the command on all the yaml files found in
 the package, except for an file called `build.yml` or `build.yaml`.
 
+### Commands using docker
+    k8s build [package]
+
+The build package will build your Dockerfiles based on specifications from build.yml or build.yaml.
+
+Minimum required format build.yml file:
+
+```json
+dockerfile:
+    - tag: "mycoolapp:latest"
+      path: "infrastructure/mycoolapp"
+      dockerfile: "Dockerfile"
+```
+
+Options:
+- tag: the tag used to build your docker image
+- path: the path to docker context. If is not prefixed with "/", it will be relative to
+your projects' folder from config file.
+- dockerfile: name of the dockerfile, if multiple names - optional
+
 @author Dumitru Alexandru

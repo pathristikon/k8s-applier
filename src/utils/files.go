@@ -90,9 +90,31 @@ func BuildDockerImages(config Config, project string) {
 	}
 
 	for _, buildData := range build.Dockerfile {
-		cmd := fmt.Sprintf("docker build -t %s -f %s/%s %s", buildData.Tag,buildData.Path,  buildData.Dockerfile, buildData.Path)
+		// check if the required arguments are set
+		if buildData.Path == "" || buildData.Tag == "" {
+			Alert("ERR", "Tag, path and dockerfile required!")
+		}
 
-		fmt.Printf("[Notice] Executing: %s \n\n", cmd)
+		var context string
+		var dockerfile string
+
+		// setting up the name of the dockerfile
+		if buildData.Dockerfile == "" {
+			dockerfile = "Dockerfile"
+		} else {
+			dockerfile = buildData.Dockerfile
+		}
+
+		// checking if string has prefix "/"
+		if strings.HasPrefix(buildData.Path, "/") {
+			context = buildData.Path
+		} else {
+			context = fmt.Sprintf("%s/%s", config.ProjectFolder, buildData.Path)
+		}
+
+		cmd := fmt.Sprintf("docker build -t %s -f %s/%s %s", buildData.Tag, context,  dockerfile, context)
+
+		fmt.Printf("[NOTICE] Executing: %s \n\n", cmd)
 		ExecCommand(strings.Split(cmd, " "))
 	}
 }
