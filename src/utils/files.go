@@ -80,7 +80,7 @@ func BuildDockerImages(config Config, project string) {
 	file, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		panic("Cannot read config.yaml|yml file")
+		panic("Cannot read build.yaml|yml file")
 	}
 
 	err = yaml.Unmarshal(file, &build)
