@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"gopkg.in/yaml.v2"
+	"strings"
 )
 
 type Build struct {
@@ -89,6 +90,9 @@ func BuildDockerImages(config Config, project string) {
 	}
 
 	for _, buildData := range build.Dockerfile {
-		fmt.Println(buildData)
+		cmd := fmt.Sprintf("docker build -t %s -f %s/%s %s", buildData.Tag,buildData.Path,  buildData.Dockerfile, buildData.Path)
+
+		fmt.Printf("[Notice] Executing: %s \n\n", cmd)
+		ExecCommand(strings.Split(cmd, " "))
 	}
 }

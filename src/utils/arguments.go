@@ -56,9 +56,8 @@ func kubectl(config Config) {
 		}
 
 		HandleKubernetesFiles(project, cmd, config)
+		os.Exit(0)
 	}
-
-	os.Exit(0)
 }
 
 
@@ -73,7 +72,6 @@ func dockerBuild(config Config) {
 		}
 
 		BuildDockerImages(config, args[0])
+		os.Exit(0)
 	}
-
-	return
 }
