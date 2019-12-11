@@ -12,6 +12,7 @@ func ParseArguments() {
 	/** Parse arguments */
 	help()
 	kubectl(configParams)
+	dockerBuild(configParams)
 
 	/** Default behavior */
 	Alert("ERR", "This command doesn't exists!")
@@ -55,6 +56,23 @@ func kubectl(config Config) {
 		}
 
 		HandleKubernetesFiles(project, cmd, config)
+	}
+
+	return
+}
+
+
+func dockerBuild(config Config) {
+	if os.Args[1] == "build" {
+		commands := flag.NewFlagSet("build", flag.ExitOnError)
+		_ = commands.Parse(os.Args[2:])
+
+		args := commands.Args()
+		if len(args) < 1 {
+			Alert("ERR","Expected build [project]")
+		}
+
+		BuildDockerImages(config, args[0])
 	}
 
 	return
