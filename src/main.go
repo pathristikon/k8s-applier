@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./utils"
+	"k8s-applier/utils"
 )
 
 func main() {

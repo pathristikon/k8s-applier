@@ -58,7 +58,7 @@ func kubectl(config Config) {
 		HandleKubernetesFiles(project, cmd, config)
 	}
 
-	return
+	os.Exit(0)
 }
 
 
