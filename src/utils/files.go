@@ -6,8 +6,18 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"gopkg.in/yaml.v2"
+	"strings"
 )
 
+type Build struct {
+	Dockerfile []struct {
+		Tag string `yaml:"tag"`
+		Path string `yaml:"path"`
+		Dockerfile string `yaml:"dockerfile"`
+		Context string `yaml:"context"`
+	}
+}
 
 /** Check file extension */
 func CheckExtension(i os.FileInfo) bool {
@@ -34,8 +44,8 @@ func ReadFiles(dirname string, configParams Config) []string {
 	var list []string
 
 	for _, f := range files {
-		// passing over dirs
-		if f.IsDir() {
+		// passing over dirs, or build files
+		if f.IsDir() || f.Name() == "build.yaml" || f.Name() == "build.yml" {
 			continue
 		}
 
@@ -59,4 +69,52 @@ func CheckIfProjectExists(config Config, dirName string) bool {
 	}
 
 	return false
+}
+
+
+func BuildDockerImages(config Config, project string) {
+
+	var build Build
+
+	filename := fmt.Sprintf("%s/%s/%s", config.ConfigFolder, project, "build.yaml")
+	file, err := ioutil.ReadFile(filename)
+
+	if err != nil {
+		panic("Cannot read build.yaml|yml file")
+	}
+
+	err = yaml.Unmarshal(file, &build)
+
+	if err != nil {
+		panic(fmt.Sprintf("Cannot parse file %s", filename))
+	}
+
+	for _, buildData := range build.Dockerfile {
+		// check if the required arguments are set
+		if buildData.Path == "" || buildData.Tag == "" {
+			Alert("ERR", "Tag, path and dockerfile required!")
+		}
+
+		var context string
+		var dockerfile string
+
+		// setting up the name of the dockerfile
+		if buildData.Dockerfile == "" {
+			dockerfile = "Dockerfile"
+		} else {
+			dockerfile = buildData.Dockerfile
+		}
+
+		// checking if string has prefix "/"
+		if strings.HasPrefix(buildData.Path, "/") {
+			context = buildData.Path
+		} else {
+			context = fmt.Sprintf("%s/%s", config.ProjectFolder, buildData.Path)
+		}
+
+		cmd := fmt.Sprintf("docker build -t %s -f %s/%s %s", buildData.Tag, context,  dockerfile, context)
+
+		fmt.Printf("\u001b[34m[NOTICE] Executing: \u001b[0m \u001b[36m%s \u001b[0m\n\n", cmd)
+		ExecCommand(strings.Split(cmd, " "))
+	}
 }

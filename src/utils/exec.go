@@ -1,7 +1,10 @@
 package utils
 
 import (
+	"bytes"
 	"fmt"
+	"io"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -21,13 +24,16 @@ func HandleYamls(files []string, cmd string, project string, configParams Config
 
 /** execute command and print response */
 func ExecCommand(args []string) {
+	var stdBuffer bytes.Buffer
+	mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
 	cmd := exec.Command(args[0], args[1:]...)
+	cmd.Stdout, cmd.Stderr = mw, mw
 
-	stdout, stderr := cmd.CombinedOutput()
-
-	if stderr != nil {
+	if err := cmd.Run(); err != nil {
+		fmt.Println(err)
 		Alert("ERR", "Cannot execute command!")
 	}
 
-	fmt.Println(string(stdout))
+	fmt.Println(stdBuffer.String())
 }
