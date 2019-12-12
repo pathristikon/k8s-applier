@@ -64,6 +64,8 @@ func kubectl(config Config) {
 func dockerBuild(config Config) {
 	if os.Args[1] == "build" {
 		commands := flag.NewFlagSet("build", flag.ExitOnError)
+		tag := commands.String("tag", "", "Choose the tag of the docker image being built")
+
 		_ = commands.Parse(os.Args[2:])
 
 		args := commands.Args()
@@ -71,7 +73,7 @@ func dockerBuild(config Config) {
 			Alert("ERR","Expected build [project]")
 		}
 
-		BuildDockerImages(config, args[0])
+		BuildDockerImages(config, args[0], *tag)
 		os.Exit(0)
 	}
 }

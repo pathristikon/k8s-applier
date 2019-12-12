@@ -2,11 +2,11 @@ package utils
 
 import (
 	"fmt"
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
-	"gopkg.in/yaml.v2"
 	"strings"
 )
 
@@ -59,6 +59,7 @@ func ReadFiles(dirname string, configParams Config) []string {
 }
 
 
+/** Checking if project exists */
 func CheckIfProjectExists(config Config, dirName string) bool {
 	dirs, _ := ioutil.ReadDir(config.ConfigFolder)
 
@@ -72,7 +73,8 @@ func CheckIfProjectExists(config Config, dirName string) bool {
 }
 
 
-func BuildDockerImages(config Config, project string) {
+/** Build Dockerfile files based on build.yaml|yml */
+func BuildDockerImages(config Config, project string, definedTag string) {
 
 	var build Build
 
@@ -92,7 +94,7 @@ func BuildDockerImages(config Config, project string) {
 	for _, buildData := range build.Dockerfile {
 		// check if the required arguments are set
 		if buildData.Path == "" || buildData.Tag == "" {
-			Alert("ERR", "Tag, path and dockerfile required!")
+			Alert("ERR", "Tag and path required!")
 		}
 
 		var context string
@@ -112,7 +114,19 @@ func BuildDockerImages(config Config, project string) {
 			context = fmt.Sprintf("%s/%s", config.ProjectFolder, buildData.Path)
 		}
 
-		cmd := fmt.Sprintf("docker build -t %s -f %s/%s %s", buildData.Tag, context,  dockerfile, context)
+		// checking if tag is set and definition from yaml meets the criteria
+		var useTag string
+		if definedTag != "" {
+			if strings.Contains(buildData.Tag, ":") {
+				Alert("ERR", "Already defined an tag in the `tag` definition from yaml!")
+			}
+			useTag = fmt.Sprintf("%s:%s", buildData.Tag, definedTag)
+		} else {
+			useTag = buildData.Tag
+		}
+
+		// create actual build command and execute
+		cmd := fmt.Sprintf("docker build -t %s -f %s/%s %s", useTag, context,  dockerfile, context)
 
 		fmt.Printf("\u001b[34m[NOTICE] Executing: \u001b[0m \u001b[36m%s \u001b[0m\n\n", cmd)
 		ExecCommand(strings.Split(cmd, " "))

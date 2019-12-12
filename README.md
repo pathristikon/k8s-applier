@@ -43,8 +43,9 @@ The command is recursive and it will execute the command on all the yaml files f
 the package, except for an file called `build.yml` or `build.yaml`.
 
 ### Commands using docker
-    k8s build [package]
-
+    k8s build [package] OR
+    k8s build -tag [tag] [package]
+    
 The build package will build your Dockerfiles based on specifications from build.yml or build.yaml.
 
 Minimum required format build.yml file:
@@ -53,13 +54,24 @@ Minimum required format build.yml file:
 dockerfile:
     - tag: "mycoolapp:latest"
       path: "infrastructure/mycoolapp"
-      dockerfile: "Dockerfile"
+    
+    - tag: "mycoolappdb:3fr5310"
+      path: "infrastructure/mycoolapp/db"
+      dockerfile: "DB_Dockerfile"
 ```
 
-Options:
+#### Options:
 - tag: the tag used to build your docker image
 - path: the path to docker context. If is not prefixed with "/", it will be relative to
 your projects' folder from config file.
-- dockerfile: name of the dockerfile, if multiple names - optional
+- dockerfile: name of the dockerfile, if multiple names - optional. Default: `Dockerfile`
+
+#### Tag specifications:
+
+A tag can be set either in YAML file `mycoolapp:latest` where latest is the tag or using the 
+`-- tag` flag.
+
+The tag will apply to all docker images created.
+
 
 @author Dumitru Alexandru
