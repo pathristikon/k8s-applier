@@ -114,7 +114,7 @@ func BuildDockerImages(config Config, project string) {
 
 		cmd := fmt.Sprintf("docker build -t %s -f %s/%s %s", buildData.Tag, context,  dockerfile, context)
 
-		fmt.Printf("[NOTICE] Executing: %s \n\n", cmd)
+		fmt.Printf("\u001b[34m[NOTICE] Executing: \u001b[0m \u001b[36m%s \u001b[0m\n\n", cmd)
 		ExecCommand(strings.Split(cmd, " "))
 	}
 }

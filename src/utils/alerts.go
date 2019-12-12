@@ -12,7 +12,23 @@ func Alert(kind string, text string) {
 		panic("[DEBUG] You requested an invalid alert type! \n")
 	}
 
-	fmt.Printf("[%s] %s \n", kind, text)
+	setContextColors(kind, text)
 
 	os.Exit(0)
+}
+
+
+func setContextColors(kind string, text string) {
+	var color string
+
+	switch kind {
+	case "ERR":
+		color = "\u001b[31m"
+	case "NOTICE":
+		color = "\u001b[34m"
+	case "WARNING":
+		color = "\u001b[33m"
+	}
+	
+	fmt.Printf("%s[%s] %s \u001b[0m\n", color, kind, text)
 }
