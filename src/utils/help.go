@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+
+/** Help text */
 func PrintHelp() {
 	message := `Kubernetes cluster helper
 

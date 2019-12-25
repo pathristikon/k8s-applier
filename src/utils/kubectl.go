@@ -2,6 +2,8 @@ package utils
 
 import "fmt"
 
+
+/** Handle the kubectl yaml files */
 func HandleKubernetesFiles(project string, cmd string, config Config) {
 	yamlFiles := ReadFiles(project, config)
 

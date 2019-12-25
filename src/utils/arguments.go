@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+
+/** Parsing the arguments from command line */
 func ParseArguments() {
 	/** Initializing system */
 	configParams := InitSystem()
@@ -20,6 +22,7 @@ func ParseArguments() {
 }
 
 
+/** Print help */
 func help() {
 	help := flag.Bool("help", false, "Get help")
 	flag.Parse()
@@ -30,6 +33,7 @@ func help() {
 }
 
 
+/** Kubectl arguments */
 func kubectl(config Config) {
 	if os.Args[1] == "kube" {
 		kube := flag.NewFlagSet("kube", flag.ExitOnError)
@@ -61,6 +65,7 @@ func kubectl(config Config) {
 }
 
 
+/** Build dockerfiles based on YAML file arguments */
 func dockerBuild(config Config) {
 	if os.Args[1] == "build" {
 		commands := flag.NewFlagSet("build", flag.ExitOnError)

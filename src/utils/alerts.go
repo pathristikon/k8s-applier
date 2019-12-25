@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+
+/** Alert type */
 func Alert(kind string, text string) {
 	choices := map[string]bool{"ERR": true, "NOTICE": true, "WARNING": true}
 
@@ -18,6 +20,7 @@ func Alert(kind string, text string) {
 }
 
 
+/** Terminal colors */
 func setContextColors(kind string, text string) {
 	var color string
 
