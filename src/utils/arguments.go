@@ -2,6 +2,7 @@ package utils
 
 import (
 	"flag"
+	"fmt"
 	"os"
 )
 
@@ -15,6 +16,7 @@ func ParseArguments() {
 	help()
 	kubectl(configParams)
 	dockerBuild(configParams)
+	helm(configParams)
 
 	/** Default behavior */
 	Alert("ERR", "This command doesn't exists!")
@@ -32,36 +34,50 @@ func help() {
 	}
 }
 
+func baseCommands(command string, configuredCommands map[string]bool, config Config) (string, string, Config) {
+	if os.Args[1] == command {
+		parseArgs := flag.NewFlagSet(command, flag.ExitOnError)
+		_ = parseArgs.Parse(os.Args[2:])
 
-/** Kubectl arguments */
-func kubectl(config Config) {
-	if os.Args[1] == "kube" {
-		kube := flag.NewFlagSet("kube", flag.ExitOnError)
-		_ = kube.Parse(os.Args[2:])
-
-		args := kube.Args()
+		args := parseArgs.Args()
 		if len(args) < 2 {
-			Alert("ERR","Expected kube [cmd] [project]")
+			Alert("ERR", fmt.Sprintf("Expected %s [cmd] [project]", command))
 		}
 
 		cmd := args[0]
 		project := args[1]
-		projectExists := CheckIfProjectExists(config, project)
 
-		/** check if cmd is in map */
-		choices := map[string]bool{"apply": true, "delete": true, "create": true}
-		if _, validChoice := choices[cmd]; !validChoice {
-			Alert("ERR", "This kubernetes command can't be applied! Check help for details!")
-		}
-
+		projectExists := CheckIfProjectExists(config, project, command)
 		/** check if project folder exists */
 		if !projectExists {
 			Alert("ERR","Project folder does not exists!")
 		}
 
-		HandleKubernetesFiles(project, cmd, config)
-		os.Exit(0)
+		/** check if cmd is in map */
+		if _, validChoice := configuredCommands[cmd]; !validChoice {
+			Alert("ERR", "This kubernetes command can't be applied! Check help for details!")
+		}
+
+		return project, cmd, config
 	}
+
+	return "", "", Config{}
+}
+
+/** Kubectl arguments */
+func kubectl(config Config) {
+	commands := map[string]bool{"apply": true, "delete": true, "create": true}
+	project, cmd, config := baseCommands("kubectl", commands, config)
+	HandleKubernetesFiles(project, cmd, config)
+	os.Exit(0)
+}
+
+/** Helm arguments */
+func helm(config Config) {
+	commands := map[string]bool{"install": true, "uninstall": true, "create": true}
+	project, cmd, config := baseCommands("helm", commands, config)
+	HandleKubernetesFiles(project, cmd, config)
+	os.Exit(0)
 }
 
 

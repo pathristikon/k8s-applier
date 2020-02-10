@@ -21,6 +21,9 @@ Commands using kubectl:
 Commands using docker:
 	build [package]          build package based on yaml build.yml|yaml file
 
+Commands using helm:
+	helm install [package]   install package from HelmCharts config folder
+
 Help command:
 	help | --h          see help information
 `

@@ -19,6 +19,7 @@ The questions are:
     
     Where do you keep the projects?
     Where do you keep the k8s configs?
+    [Optional] Where do you keep the Helm charts?
 
 Provide absolute path.
 

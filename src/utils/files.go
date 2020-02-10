@@ -60,8 +60,19 @@ func ReadFiles(dirname string, configParams Config) []string {
 
 
 /** Checking if project exists */
-func CheckIfProjectExists(config Config, dirName string) bool {
-	dirs, _ := ioutil.ReadDir(config.ConfigFolder)
+func CheckIfProjectExists(config Config, dirName string, command string) bool {
+	var dirs []os.FileInfo
+
+	switch command {
+	case "kube":
+		dirs, _ = ioutil.ReadDir(config.ConfigFolder)
+		break
+	case "helm":
+		dirs, _ = ioutil.ReadDir(config.HelmCharts)
+		break
+	default:
+		Alert("ERR", "No such command configured!")
+	}
 
 	for _, dir := range dirs {
 		if dir.Name() == dirName && dir.IsDir() {
