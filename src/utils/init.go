@@ -14,6 +14,7 @@ import (
 type Config struct {
 	ProjectFolder string `json:"projectFolder,omitempty"`
 	ConfigFolder  string `json:"configFolder,omitempty"`
+	HelmCharts  string `json:"helmCharts,omitempty"`
 }
 
 
@@ -25,7 +26,7 @@ func InitSystem() Config {
 	currentUser, err := user.Current()
 
 	if err != nil {
-		Alert("ERR", "Cannot get current user!")
+		Alert("ERR", "Cannot get current user!", false)
 	}
 
 	configFolderString = fmt.Sprintf("%s/%s", currentUser.HomeDir, ConfigDir)
@@ -48,7 +49,7 @@ func createConfigFolderIfNotExists(currentUser *user.User) bool {
 		err := os.Mkdir(configFolderString, 0755)
 
 		if err != nil {
-			Alert("ERR", "Couldn't create directory in Home folder!")
+			Alert("ERR", "Couldn't create directory in Home folder!", false)
 		}
 
 		return true
@@ -79,26 +80,45 @@ func getConfigFolder(currentUser *user.User) bool {
 func resolveQuestions() {
 	reader := bufio.NewReader(os.Stdin)
 
-	questions := []string{"Where do you keep the projects?", "Where do you keep the k8s configs?"}
+	questions := []string{
+		"Where do you keep the projects?",
+		"Where do you keep the k8s configs?",
+		"[Optional] Where do you keep the Helm charts?",
+	}
+
 	answers := &Config{}
 
 	for index, question := range questions {
-		fmt.Println(question)
-		answer, _ := reader.ReadString('\n')
+		var answer string
 
-		answer = strings.TrimSpace(answer)
+		for {
+			fmt.Println(question)
+			answer, _ = reader.ReadString('\n')
+			answer = strings.TrimSpace(answer)
 
-		if index == 0 {
+			// skip optional parameter Config.HelmCharts
+			if index == 2 || len(answer) > 0 {
+				break
+			}
+		}
+
+		switch index {
+		case 0:
 			answers.ProjectFolder = answer
-		} else if index == 1 {
+			break
+		case 1:
 			answers.ConfigFolder = answer
+			break
+		case 2:
+			answers.HelmCharts = answer
+			break
 		}
 	}
 
 	// encoding to json
 	configJson, err := json.Marshal(answers)
 	if err != nil {
-		Alert("ERR", "Couldn't save the config to JSON")
+		Alert("ERR", "Couldn't save the config to JSON", false)
 	}
 
 	filename := fmt.Sprintf("%s/%s", configFolderString, ConfigFile)

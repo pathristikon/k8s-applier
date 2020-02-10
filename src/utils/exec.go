@@ -9,15 +9,18 @@ import (
 	"strings"
 )
 
+
 /** apply the k8s yaml files */
 func HandleYamls(files []string, cmd string, project string, configParams Config) {
 	for _, file := range files {
-		cmdString := fmt.Sprintf("kubectl %s -f %s/%s/%s", cmd, configParams.ConfigFolder, project, file)
+		cmdString := fmt.Sprintf("%s %s -f %s/%s/%s", KubectlArgument, cmd, configParams.ConfigFolder, project, file)
 		command := strings.Split(cmdString, " ")
 
-		fmt.Printf("Running: %s \n",  strings.Join(command, " "))
+		Alert("NOTICE", fmt.Sprintf("Running: %s \n",  strings.Join(command, " ")), true )
 
-		ExecCommand(command)
+		if !appConfig.dryRun {
+			ExecCommand(command)
+		}
 	}
 }
 
@@ -32,7 +35,7 @@ func ExecCommand(args []string) {
 
 	if err := cmd.Run(); err != nil {
 		fmt.Println(err)
-		Alert("ERR", "Cannot execute command!")
+		Alert("ERR", "Cannot execute command!", false)
 	}
 
 	fmt.Println(stdBuffer.String())
