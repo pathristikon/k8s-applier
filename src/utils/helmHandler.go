@@ -13,5 +13,8 @@ func HelmHandler(project string, cmd string, config Config, otherArguments []str
 	command := strings.Split(cmdString, " ")
 
 	Alert("NOTICE", fmt.Sprintf("Running: %s \n",  strings.Join(command, " ")), true )
-	ExecCommand(command)
+
+	if !appConfig.dryRun {
+		ExecCommand(command)
+	}
 }

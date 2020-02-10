@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+
 /** apply the k8s yaml files */
 func HandleYamls(files []string, cmd string, project string, configParams Config) {
 	for _, file := range files {
@@ -16,7 +17,10 @@ func HandleYamls(files []string, cmd string, project string, configParams Config
 		command := strings.Split(cmdString, " ")
 
 		Alert("NOTICE", fmt.Sprintf("Running: %s \n",  strings.Join(command, " ")), true )
-		ExecCommand(command)
+
+		if !appConfig.dryRun {
+			ExecCommand(command)
+		}
 	}
 }
 
