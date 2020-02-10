@@ -26,7 +26,7 @@ func InitSystem() Config {
 	currentUser, err := user.Current()
 
 	if err != nil {
-		Alert("ERR", "Cannot get current user!")
+		Alert("ERR", "Cannot get current user!", false)
 	}
 
 	configFolderString = fmt.Sprintf("%s/%s", currentUser.HomeDir, ConfigDir)
@@ -49,7 +49,7 @@ func createConfigFolderIfNotExists(currentUser *user.User) bool {
 		err := os.Mkdir(configFolderString, 0755)
 
 		if err != nil {
-			Alert("ERR", "Couldn't create directory in Home folder!")
+			Alert("ERR", "Couldn't create directory in Home folder!", false)
 		}
 
 		return true
@@ -118,7 +118,7 @@ func resolveQuestions() {
 	// encoding to json
 	configJson, err := json.Marshal(answers)
 	if err != nil {
-		Alert("ERR", "Couldn't save the config to JSON")
+		Alert("ERR", "Couldn't save the config to JSON", false)
 	}
 
 	filename := fmt.Sprintf("%s/%s", configFolderString, ConfigFile)

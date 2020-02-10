@@ -7,7 +7,7 @@ import (
 
 
 /** Alert type */
-func Alert(kind string, text string) {
+func Alert(kind string, text string, continueExecution bool) {
 	choices := map[string]bool{"ERR": true, "NOTICE": true, "WARNING": true}
 
 	if _, validChoice := choices[kind]; !validChoice {
@@ -16,6 +16,9 @@ func Alert(kind string, text string) {
 
 	setContextColors(kind, text)
 
+	if continueExecution {
+		return
+	}
 	os.Exit(0)
 }
 

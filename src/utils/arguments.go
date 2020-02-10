@@ -19,7 +19,7 @@ func ParseArguments() {
 	helm(configParams)
 
 	/** Default behavior */
-	Alert("ERR", "This command doesn't exists!")
+	Alert("ERR", "This command doesn't exists!", false)
 	os.Exit(1)
 }
 
@@ -40,8 +40,9 @@ func baseCommands(command string, configuredCommands map[string]bool, config Con
 		_ = parseArgs.Parse(os.Args[2:])
 
 		args := parseArgs.Args()
+
 		if len(args) < 2 {
-			Alert("ERR", fmt.Sprintf("Expected %s [cmd] [project]", command))
+			Alert("ERR", fmt.Sprintf("Expected %s [cmd] [project]", command), false)
 		}
 
 		cmd := args[0]
@@ -50,12 +51,12 @@ func baseCommands(command string, configuredCommands map[string]bool, config Con
 		projectExists := CheckIfProjectExists(config, project, command)
 		/** check if project folder exists */
 		if !projectExists {
-			Alert("ERR","Project folder does not exists!")
+			Alert("ERR","Project folder does not exists!", false)
 		}
 
 		/** check if cmd is in map */
 		if _, validChoice := configuredCommands[cmd]; !validChoice {
-			Alert("ERR", "This kubernetes command can't be applied! Check help for details!")
+			Alert("ERR", "This kubernetes command can't be applied! Check help for details!", false)
 		}
 
 		return project, cmd, config
@@ -67,17 +68,22 @@ func baseCommands(command string, configuredCommands map[string]bool, config Con
 /** Kubectl arguments */
 func kubectl(config Config) {
 	commands := map[string]bool{"apply": true, "delete": true, "create": true}
-	project, cmd, config := baseCommands("kubectl", commands, config)
-	HandleKubernetesFiles(project, cmd, config)
-	os.Exit(0)
+	project, cmd, config := baseCommands(KubectlArgument, commands, config)
+	if project != "" || cmd != "" {
+		KubectlHandler(project, cmd, config)
+		os.Exit(0)
+	}
 }
 
 /** Helm arguments */
 func helm(config Config) {
 	commands := map[string]bool{"install": true, "uninstall": true, "create": true}
-	project, cmd, config := baseCommands("helm", commands, config)
-	HandleKubernetesFiles(project, cmd, config)
-	os.Exit(0)
+	project, cmd, config := baseCommands(HelmArgument, commands, config)
+
+	if project != "" || cmd != "" {
+	 	HelmHandler(project, cmd, config)
+		os.Exit(0)
+	}
 }
 
 
@@ -91,7 +97,7 @@ func dockerBuild(config Config) {
 
 		args := commands.Args()
 		if len(args) < 1 {
-			Alert("ERR","Expected build [project]")
+			Alert("ERR","Expected build [project]", false)
 		}
 
 		BuildDockerImages(config, args[0], *tag)

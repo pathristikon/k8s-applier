@@ -64,14 +64,14 @@ func CheckIfProjectExists(config Config, dirName string, command string) bool {
 	var dirs []os.FileInfo
 
 	switch command {
-	case "kube":
+	case KubectlArgument:
 		dirs, _ = ioutil.ReadDir(config.ConfigFolder)
 		break
-	case "helm":
+	case HelmArgument:
 		dirs, _ = ioutil.ReadDir(config.HelmCharts)
 		break
 	default:
-		Alert("ERR", "No such command configured!")
+		Alert("ERR", "No such command configured!", false)
 	}
 
 	for _, dir := range dirs {
@@ -105,7 +105,7 @@ func BuildDockerImages(config Config, project string, definedTag string) {
 	for _, buildData := range build.Dockerfile {
 		// check if the required arguments are set
 		if buildData.Path == "" || buildData.Tag == "" {
-			Alert("ERR", "Tag and path required!")
+			Alert("ERR", "Tag and path required!", false)
 		}
 
 		var context string
@@ -129,7 +129,7 @@ func BuildDockerImages(config Config, project string, definedTag string) {
 		var useTag string
 		if definedTag != "" {
 			if strings.Contains(buildData.Tag, ":") {
-				Alert("ERR", "Already defined an tag in the `tag` definition from yaml!")
+				Alert("ERR", "Already defined an tag in the `tag` definition from yaml!", false)
 			}
 			useTag = fmt.Sprintf("%s:%s", buildData.Tag, definedTag)
 		} else {
