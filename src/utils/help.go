@@ -23,6 +23,8 @@ Commands using docker:
 
 Commands using helm:
 	helm install [package]   install package from HelmCharts config folder
+	helm uninstall [package] uninstalls package from HelmCharts config folder
+	helm status [package]    get status of package
 
 Help command:
 	help | --h          see help information

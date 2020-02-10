@@ -34,7 +34,7 @@ func help() {
 	}
 }
 
-func baseCommands(command string, configuredCommands map[string]bool, config Config) (string, string, Config) {
+func baseCommands(command string, configuredCommands map[string]bool, config Config) (string, string, Config, []string) {
 	if os.Args[1] == command {
 		parseArgs := flag.NewFlagSet(command, flag.ExitOnError)
 		_ = parseArgs.Parse(os.Args[2:])
@@ -48,6 +48,8 @@ func baseCommands(command string, configuredCommands map[string]bool, config Con
 		cmd := args[0]
 		project := args[1]
 
+		otherArguments := args[2:]
+
 		projectExists := CheckIfProjectExists(config, project, command)
 		/** check if project folder exists */
 		if !projectExists {
@@ -59,16 +61,16 @@ func baseCommands(command string, configuredCommands map[string]bool, config Con
 			Alert("ERR", "This kubernetes command can't be applied! Check help for details!", false)
 		}
 
-		return project, cmd, config
+		return project, cmd, config, otherArguments
 	}
 
-	return "", "", Config{}
+	return "", "", Config{}, []string{}
 }
 
 /** Kubectl arguments */
 func kubectl(config Config) {
 	commands := map[string]bool{"apply": true, "delete": true, "create": true}
-	project, cmd, config := baseCommands(KubectlArgument, commands, config)
+	project, cmd, config, _ := baseCommands(KubectlArgument, commands, config)
 	if project != "" || cmd != "" {
 		KubectlHandler(project, cmd, config)
 		os.Exit(0)
@@ -77,11 +79,11 @@ func kubectl(config Config) {
 
 /** Helm arguments */
 func helm(config Config) {
-	commands := map[string]bool{"install": true, "uninstall": true, "create": true}
-	project, cmd, config := baseCommands(HelmArgument, commands, config)
+	commands := map[string]bool{"install": true, "uninstall": true, "status": true}
+	project, cmd, config, otherArguments := baseCommands(HelmArgument, commands, config)
 
 	if project != "" || cmd != "" {
-	 	HelmHandler(project, cmd, config)
+	 	HelmHandler(project, cmd, config, otherArguments)
 		os.Exit(0)
 	}
 }

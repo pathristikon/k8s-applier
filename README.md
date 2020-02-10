@@ -43,6 +43,14 @@ kubernetes cluster.
 The command is recursive and it will execute the command on all the yaml files found in
 the package, except for an file called `build.yml` or `build.yaml`.
 
+### Commands using helm
+    k8s helm install [package]
+    k8s helm uninstall [package]
+    k8s helm status [package]
+    
+If you would like to pass extra arguments, feel free to do it so:
+    `k8s helm install [package] --generate-name`
+
 ### Commands using docker
     k8s build [package] OR
     k8s build -tag [tag] [package]
