@@ -8,7 +8,7 @@ import (
 
 /** Help text */
 func PrintHelp() {
-	message := `Kubernetes cluster helper
+	message := `Kubernetes cluster helper - v.1.0.3
 
 Usage:
 	` + ProjectName + ` <flags> <command> [arguments]
