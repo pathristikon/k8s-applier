@@ -7,7 +7,8 @@ func TestConstants(t *testing.T) {
 		ConfigFile == "" ||
 		ProjectName == "" ||
 		KubectlArgument == "" ||
-		HelmArgument == "" {
+		HelmArgument == "" ||
+		K8sVersion == "" {
 		t.Fatalf("Constants missing in constants.go!")
 	}
 }
