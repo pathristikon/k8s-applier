@@ -4,8 +4,6 @@ go:
 - 1.12.x
 - master
 
-go_import_path: gopkg.in/yaml.v2
-
 os:
   - linux
   - osx
