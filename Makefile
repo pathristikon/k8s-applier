@@ -3,6 +3,7 @@
 PROJECT = k8s
 
 install:
+	cd src/utils && go test
 	cd src/ && GO111MODULE=on go build -o ../k8s main.go
 
 install-linux:
