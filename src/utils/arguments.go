@@ -23,7 +23,6 @@ func ParseArguments() {
 	configParams := InitSystem()
 
 	/** Parse arguments */
-	help()
 	globalFlags()
 	kubectl(configParams)
 	dockerBuild(configParams)
@@ -37,26 +36,19 @@ func ParseArguments() {
 
 /** Parse global flags */
 func globalFlags() {
+	help := flag.Bool("help", false, "Get help")
+	h := flag.Bool("h", false, "Get help")
 	dryRunFlag := flag.Bool("dry-run", false, "Dry run the commands without executing them")
 	flag.Parse()
 
 	if *dryRunFlag {
 		appConfig.dryRun = true
 	}
-}
-
-
-/** Print help */
-func help() {
-	help := flag.Bool("help", false, "Get help")
-	h := flag.Bool("h", false, "Get help")
-	flag.Parse()
 
 	if len(os.Args) >= 2 && *help || len(os.Args) >= 2 && *h || len(os.Args) == 1 {
 		PrintHelp()
 	}
 }
-
 
 /** Basic flag parser for commands such as kubectl & helm */
 func baseCommands(command string, configuredCommands map[string]bool, config Config) (string, string, Config, []string) {
