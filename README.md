@@ -8,7 +8,7 @@ Run `make install-linux`
 
 ### Usage
 
-`k8s <command> [arguments]`
+`k8s <flags> <command> [arguments]`
 
 ### Configuration
 
@@ -36,24 +36,24 @@ Run the following commands for help:
 These commands will apply/delete/create the yaml configuration yaml files for your
 kubernetes cluster.
 
-    k8s <global-args> kubectl apply [package]
-    k8s <global-args> kubectl delete [package]
-    k8s <global-args> kubectl create [package]
+    k8s kubectl apply [package]
+    k8s kubectl delete [package]
+    k8s kubectl create [package]
 
 The command is recursive and it will execute the command on all the yaml files found in
 the package, except for an file called `build.yml` or `build.yaml`.
 
 ### Commands using helm
-    k8s <global-args> helm install [package]
-    k8s <global-args> helm uninstall [package]
-    k8s <global-args> helm status [package]
+    k8s helm install [package]
+    k8s helm uninstall [package]
+    k8s helm status [package]
     
 If you would like to pass extra arguments, feel free to do it so:
     `k8s helm install [package] --generate-name`
 
 ### Commands using docker
-    k8s <global-args> build [package] OR
-    k8s <global-args> build -tag [tag] [package]
+    k8s build [package] OR
+    k8s build -tag [tag] [package]
     
 The build package will build your Dockerfiles based on specifications from build.yml or build.yaml.
 
@@ -69,8 +69,8 @@ dockerfile:
       dockerfile: "DB_Dockerfile"
 ```
 
-### Global arguments
-Global arguments are:
+### Flags
+Flags are:
     
     -dry-run       Don't actually execute the command, just print the messages 
 

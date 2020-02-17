@@ -11,27 +11,27 @@ func PrintHelp() {
 	message := `Kubernetes cluster helper
 
 Usage:
-	` + ProjectName + ` <command> [arguments]
+	` + ProjectName + ` <flags> <command> [arguments]
 
 Commands using kubectl:
-	kube <global-args> apply [package]     	apply kubernetes package to cluster
-	kube <global-args> delete [package]    	delete kubernetes package from cluster
-	kube <global-args> create [package]    	create kubernetes package in cluster
+	kube apply [package]     	apply kubernetes package to cluster
+	kube delete [package]    	delete kubernetes package from cluster
+	kube create [package]    	create kubernetes package in cluster
 
 Commands using docker:
-	build <global-args> [package]          	build package based on yaml build.yml|yaml file
+	build [package]          	build package based on yaml build.yml|yaml file
 
 Commands using helm:
-	helm <global-args> install [package]   	install package from HelmCharts config folder
-	helm <global-args> uninstall [package] 	uninstalls package from HelmCharts config folder
-	helm <global-args> status [package]    	get status of package
+	helm install [package]   	install package from HelmCharts config folder
+	helm uninstall [package] 	uninstalls package from HelmCharts config folder
+	helm status [package]    	get status of package
 
-Global arguments:
-	-dry-run                                Don't actually execute the command, 
-                                            	just print the messages 
+Flags:
+	-dry-run                    	Don't actually execute the command, 
+					just print the messages 
 
 Help command:
-	help | --h          see help information
+	help | --h          		see help information
 `
 	fmt.Printf("%s", message)
 	os.Exit(0)

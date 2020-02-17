@@ -23,8 +23,8 @@ func ParseArguments() {
 	configParams := InitSystem()
 
 	/** Parse arguments */
-	globalFlags()
 	help()
+	globalFlags()
 	kubectl(configParams)
 	dockerBuild(configParams)
 	helm(configParams)
@@ -49,9 +49,10 @@ func globalFlags() {
 /** Print help */
 func help() {
 	help := flag.Bool("help", false, "Get help")
+	h := flag.Bool("h", false, "Get help")
 	flag.Parse()
 
-	if len(os.Args) >= 2 && *help || len(os.Args) == 1 {
+	if len(os.Args) >= 2 && *help || len(os.Args) >= 2 && *h || len(os.Args) == 1 {
 		PrintHelp()
 	}
 }
@@ -108,7 +109,7 @@ func kubectl(config Config) {
 
 /** Helm arguments */
 func helm(config Config) {
-	commands := map[string]bool{"install": true, "uninstall": true, "status": true}
+	commands := map[string]bool{"install": true, "delete": true, "status": true}
 	project, cmd, config, otherArguments := baseCommands(HelmArgument, commands, config)
 
 	otherArguments = escapeArgumentsAlreadyInConfig(otherArguments)
