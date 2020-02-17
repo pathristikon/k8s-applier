@@ -69,11 +69,6 @@ dockerfile:
       dockerfile: "DB_Dockerfile"
 ```
 
-### Flags
-Flags are:
-    
-    -dry-run       Don't actually execute the command, just print the messages 
-
 #### Options:
 - tag: the tag used to build your docker image
 - path: the path to docker context. If is not prefixed with "/", it will be relative to
@@ -86,6 +81,12 @@ A tag can be set either in YAML file `mycoolapp:latest` where latest is the tag 
 `-- tag` flag.
 
 The tag will apply to all docker images created.
+
+
+### Flags
+Flags are:
+    
+    -dry-run       Don't actually execute the command, just print the messages 
 
 
 @author Dumitru Alexandru
