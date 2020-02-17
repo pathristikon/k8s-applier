@@ -15,9 +15,8 @@ before_script:
 deploy:
   provider: releases
   token: $GITHUB_TOKEN
-  cleanup: false
+  skip_cleanup: true
   file: "k8s"
-  overwrite: true
   on:
     repo: pathristikon/k8s-applier
     tags: true
