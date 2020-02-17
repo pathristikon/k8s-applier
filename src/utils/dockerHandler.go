@@ -62,10 +62,18 @@ func BuildDockerImages(config Config, project string, definedTag string) {
 
 		// create actual build command and execute
 		cmd := fmt.Sprintf("docker build -t %s -f %s/%s %s", useTag, context,  dockerfile, context)
+		push := fmt.Sprintf("docker push %s", useTag)
+		Alert("NOTICE", "Executing: " + cmd, true)
 
-		fmt.Printf("\u001b[34m[NOTICE] Executing: \u001b[0m \u001b[36m%s \u001b[0m\n\n", cmd)
+		if appConfig.pushBuild {
+			Alert("NOTICE", "Executing: " + push, true)
+		}
+
 		if !appConfig.dryRun {
 			ExecCommand(strings.Split(cmd, " "))
+			if appConfig.pushBuild {
+				ExecCommand(strings.Split(push, " "))
+			}
 		}
 	}
 }

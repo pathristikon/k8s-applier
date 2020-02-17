@@ -10,6 +10,7 @@ import (
 /** The global configuration struct */
 type globalConfig struct {
 	dryRun bool
+	pushBuild bool
 }
 
 
@@ -39,10 +40,15 @@ func globalFlags() {
 	help := flag.Bool("help", false, "Get help")
 	h := flag.Bool("h", false, "Get help")
 	dryRunFlag := flag.Bool("dry-run", false, "Dry run the commands without executing them")
+	pushBuildFlag := flag.Bool("push", false, "Push docker image after building")
 	flag.Parse()
 
 	if *dryRunFlag {
 		appConfig.dryRun = true
+	}
+
+	if *pushBuildFlag {
+		appConfig.pushBuild = true
 	}
 
 	if len(os.Args) >= 2 && *help || len(os.Args) >= 2 && *h || len(os.Args) == 1 {
@@ -115,11 +121,21 @@ func helm(config Config) {
 
 /** Build dockerfiles based on YAML file arguments */
 func dockerBuild(config Config) {
-	if os.Args[1] == "build" {
+	var arv string
+	if !appConfig.pushBuild {
+		arv = os.Args[1]
+	} else {
+		arv = os.Args[2]
+	}
+
+	if arv == "build" {
 		commands := flag.NewFlagSet("build", flag.ExitOnError)
 		tag := commands.String("tag", "", "Choose the tag of the docker image being built")
-
-		_ = commands.Parse(os.Args[2:])
+		if !appConfig.pushBuild {
+			_ = commands.Parse(os.Args[2:])
+		} else {
+			_ = commands.Parse(os.Args[3:])
+		}
 
 		args := commands.Args()
 		if len(args) < 1 {

@@ -9,3 +9,9 @@ func TestDryRun(t *testing.T) {
 		t.Fatalf("dryRun must be false by default")
 	}
 }
+
+func TestPushBuild(t *testing.T) {
+	if appConfig.pushBuild != false {
+		t.Fatalf("pushBuild must be false by default")
+	}
+}

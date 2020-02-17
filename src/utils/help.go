@@ -29,7 +29,7 @@ Commands using helm:
 Flags:
 	-dry-run                    	Don't actually execute the command, 
 					just print the messages 
-
+	-push							Push image to docker registry after build
 Help command:
 	help | --h          		see help information
 `

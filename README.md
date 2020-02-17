@@ -82,11 +82,13 @@ A tag can be set either in YAML file `mycoolapp:latest` where latest is the tag 
 
 The tag will apply to all docker images created.
 
+#### Pushing images to docker registry
+`k8s -push -dry-run build myawesomeproject`
 
 ### Flags
 Flags are:
     
     -dry-run       Don't actually execute the command, just print the messages 
-
+    -push          Push image to repository after build
 
 @author Dumitru Alexandru
